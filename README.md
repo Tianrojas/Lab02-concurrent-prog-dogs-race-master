@@ -1,6 +1,6 @@
-Escuela Colombiana de Ingeniería
+##Escuela Colombiana de Ingeniería
 
-Arquitecturas de Software – ARSW
+###Arquitecturas de Software – ARSW
 
 ####Taller – programación concurrente, condiciones de carrera y sincronización de hilos. EJERCICIO INDIVIDUAL O EN PAREJAS.
 
