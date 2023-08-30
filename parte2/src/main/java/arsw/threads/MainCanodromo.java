@@ -2,6 +2,7 @@ package arsw.threads;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 
@@ -38,9 +39,18 @@ public class MainCanodromo {
                                     galgos[i].start();
 
                                 }
-                               
-				can.winnerDialog(reg.getGanador(),reg.getUltimaPosicionAlcanzada() - 1); 
-                                System.out.println("El ganador fue:" + reg.getGanador());
+
+                                // Esperar a que todos los hilos 'galgos' terminen
+                                for (Galgo galgo : galgos) {
+                                    try {
+                                        galgo.join();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                can.winnerDialog(reg.getGanador(),reg.getUltimaPosicionAlcanzada() - 1);
+                                                System.out.println("El ganador fue: " + reg.getGanador());
                             }
                         }.start();
 
@@ -52,6 +62,9 @@ public class MainCanodromo {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        for (Galgo galgo : galgos) {
+                            galgo.pauseThread();
+                        }
                         System.out.println("Carrera pausada!");
                     }
                 }
@@ -61,6 +74,9 @@ public class MainCanodromo {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        for (Galgo galgo : galgos) {
+                            galgo.resumeThread();
+                        }
                         System.out.println("Carrera reanudada!");
                     }
                 }
