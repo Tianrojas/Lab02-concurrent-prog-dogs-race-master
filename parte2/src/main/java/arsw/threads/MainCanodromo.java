@@ -14,6 +14,7 @@ public class MainCanodromo {
 
     private static RegistroLlegada reg = new RegistroLlegada();
 
+
     public static void main(String[] args) {
         can = new Canodromo(17, 100);
         galgos = new Galgo[can.getNumCarriles()];
@@ -62,9 +63,7 @@ public class MainCanodromo {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        for (Galgo galgo : galgos) {
-                            galgo.pauseThread();
-                        }
+                        reg.togglePausaCarrera(); // Pausa la carrera
                         System.out.println("Carrera pausada!");
                     }
                 }
@@ -74,8 +73,9 @@ public class MainCanodromo {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        for (Galgo galgo : galgos) {
-                            galgo.resumeThread();
+                        reg.togglePausaCarrera(); // Reanuda la carrera
+                        synchronized (reg) {
+                            reg.notifyAll(); // Notificar a todos los hilos galgos
                         }
                         System.out.println("Carrera reanudada!");
                     }

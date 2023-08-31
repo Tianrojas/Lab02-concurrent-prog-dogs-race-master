@@ -4,6 +4,7 @@ public class RegistroLlegada {
 
 	private int ultimaPosicionAlcanzada=1;
 
+	private static boolean pausaCarrera = false;
 	private String ganador=null;
 	
 	public String getGanador() {
@@ -22,6 +23,11 @@ public class RegistroLlegada {
 		this.ultimaPosicionAlcanzada = ultimaPosicionAlcanzada;
 	}
 
-	
-	
+	public void togglePausaCarrera() {
+		pausaCarrera = !pausaCarrera; // Cambia el valor de miBoolean usando el operador de negación (!)
+	}
+
+	public static boolean isPausaCarrera() {
+		return pausaCarrera;
+	}
 }

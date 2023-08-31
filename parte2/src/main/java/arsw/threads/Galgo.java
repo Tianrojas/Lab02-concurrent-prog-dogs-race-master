@@ -1,5 +1,6 @@
 package arsw.threads;
 
+
 /**
  * Un galgo que puede correr en un carril
  * 
@@ -22,10 +23,10 @@ public class Galgo extends Thread {
 	public void corra() throws InterruptedException {
 		while (paso < carril.size()) {			
 			Thread.sleep(100);
-			synchronized (this) {
-				while (paused) {
+			synchronized (regl) {
+				while (regl.isPausaCarrera()) {
 					try {
-						wait(); // Esperar hasta que se reanude
+						regl.wait(); // Esperar hasta que se reanude
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -33,6 +34,7 @@ public class Galgo extends Thread {
 			}
 			carril.setPasoOn(paso++);
 			carril.displayPasos(paso);
+			paused = false;
 			if (paso == carril.size()) {
 				carril.finish();
 				int ubicacion;
@@ -60,12 +62,4 @@ public class Galgo extends Thread {
 
 	}
 
-	public synchronized void pauseThread() {
-		paused = true;
-	}
-
-	public synchronized void resumeThread() {
-		paused = false;
-		notifyAll(); // Notificar para reanudar
-	}
 }
